@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"git add memories/consensus.md && git commit -m \\\"$(cat <<'EOF'\\ncycle123: complete week 2 handoff - github live + launch content ready\\n\\nWeek 2 Deliverables:\\n- ✅ GitHub repo: https://git...",
+  "error": "Exit code 128\n\n⚠️  AUTO COMPANY: Decision required. Run: /home/tolgabrk/projects/Auto-Company/scripts/human-action-needed.sh\n\nfatal: pathspec 'memories/consensus.md' did not match any files",
+  "timestamp": "2026-06-04T01:10:39.017Z",
+  "retry_count": 1
+}
