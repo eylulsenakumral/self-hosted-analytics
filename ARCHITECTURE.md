@@ -186,7 +186,7 @@ public/
 │  Edge Functions │
 │  - API routes   │
 │  - SQLite in    │
-│    /tmp/.data/  │
+│    .data/analytics.db │
 └────────┬────────┘
          │
          ▼
@@ -307,13 +307,14 @@ CMD ["npm", "start"]
 **Cause:** Edge Functions have ephemeral filesystem.
 
 **Recovery:**
-- Database lives in `/tmp/.data/sqlite.db`
+- Database lives at `.data/analytics.db` (local) or Edge Function filesystem (Vercel)
 - Persists for duration of deployment
-- Lost on redeploy (acceptable tradeoff)
+- Lost on redeploy (acceptable tradeoff for MVP)
 
 **Mitigation:**
 - External database (Postgres) for production
-- Export before redeploy
+- Export before redeploy via `/api/export` endpoint
+- Automated backup script (see SETUP.md)
 
 ### Concurrent Writes
 

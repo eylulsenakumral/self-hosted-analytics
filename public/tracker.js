@@ -9,6 +9,9 @@
     const eventQueue = [];
     const BATCH_SIZE = 10;
     const FLUSH_INTERVAL = 5000; // 5 seconds
+    const MAX_QUEUE_SIZE = 100; // Prevent unbounded growth
+    let retryCount = 0;
+    const MAX_RETRY_COUNT = 3;
 
     // Get or create session ID
     function getSessionId() {
@@ -64,6 +67,12 @@
         ts: Date.now(),
       };
 
+      // Prevent unbounded queue growth
+      if (eventQueue.length >= MAX_QUEUE_SIZE) {
+        eventQueue.shift(); // Remove oldest event
+        console.warn('Analytics: Queue full, dropping oldest event');
+      }
+
       eventQueue.push(event);
 
       if (eventQueue.length >= BATCH_SIZE) {
@@ -71,12 +80,15 @@
       }
     }
 
-    // Flush queue to server
+    // Flush queue to server with exponential backoff
     function flush() {
       if (eventQueue.length === 0) return;
 
       const eventsToSend = [...eventQueue];
       eventQueue.length = 0; // Clear queue
+
+      // Exponential backoff: 2^retryCount * 1000ms
+      const backoffDelay = Math.pow(2, retryCount) * 1000;
 
       fetch('/api/track', {
         method: 'POST',
@@ -84,10 +96,30 @@
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ events: eventsToSend }),
-      }).catch(err => {
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        retryCount = 0; // Reset on success
+        return response.json();
+      })
+      .catch(err => {
         console.error('Analytics flush failed:', err);
-        // Re-queue failed events
-        eventQueue.unshift(...eventsToSend);
+        retryCount = Math.min(retryCount + 1, MAX_RETRY_COUNT);
+
+        // Re-queue failed events (with space check)
+        const spaceAvailable = MAX_QUEUE_SIZE - eventQueue.length;
+        const eventsToRequeue = eventsToSend.slice(-spaceAvailable);
+        eventQueue.unshift(...eventsToRequeue);
+
+        // Schedule retry with exponential backoff
+        if (retryCount <= MAX_RETRY_COUNT) {
+          setTimeout(flush, backoffDelay);
+        } else {
+          console.error('Analytics: Max retries reached, giving up');
+          retryCount = 0; // Reset for future attempts
+        }
       });
     }
 

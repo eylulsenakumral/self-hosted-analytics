@@ -100,7 +100,7 @@ export default function Dashboard() {
             Self-hosted. No API keys. Privacy-first.
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           <a
             href="/setup"
             className="font-body text-sm px-4 py-2 bg-bg-tertiary border border-border-subtle text-text-primary rounded hover:border-border-strong transition-colors"
@@ -113,6 +113,20 @@ export default function Dashboard() {
           >
             {showRawEvents ? 'Hide Events' : 'Raw Events'}
           </button>
+          <a
+            href={`/api/export?format=csv&range=${range}`}
+            download={`analytics-export-${new Date().toISOString().split('T')[0]}.csv`}
+            className="font-body text-sm px-4 py-2 bg-accent-green text-bg-primary rounded hover:opacity-90 transition-opacity"
+          >
+            Export CSV
+          </a>
+          <a
+            href={`/api/export?format=json&range=${range}`}
+            download={`analytics-export-${new Date().toISOString().split('T')[0]}.json`}
+            className="font-body text-sm px-4 py-2 bg-bg-tertiary border border-border-subtle text-text-primary rounded hover:border-border-strong transition-colors"
+          >
+            Export JSON
+          </a>
         </div>
       </header>
 

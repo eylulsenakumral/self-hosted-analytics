@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&amp;display=swap');
+    .step-title { font-family: 'JetBrains Mono', monospace; font-size: 42px; font-weight: 800; fill: #ffffff; }
+    .step-desc { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 400; fill: #737373; }
+    .step-action { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 400; fill: #e5e5e5; }
+    .footer { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 400; fill: #737373; }
+    .step-num-active { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; fill: #ffffff; }
+    .step-num-inactive { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; fill: #737373; }
+  </style>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0a0b"/>
+
+  <!-- Progress Indicator -->
+  <g transform="translate(240, 80)">
+    
+    <circle cx="200" cy="30" r="24" fill="#667eea" stroke="#667eea" stroke-width="2"/>
+    <text x="200" y="38" text-anchor="middle" class="step-num-active">1</text>
+    
+    <circle cx="400" cy="30" r="24" fill="#667eea" stroke="#667eea" stroke-width="2"/>
+    <text x="400" y="38" text-anchor="middle" class="step-num-active">2</text>
+    
+    <circle cx="600" cy="30" r="24" fill="#667eea" stroke="#667eea" stroke-width="2"/>
+    <text x="600" y="38" text-anchor="middle" class="step-num-active">3</text>
+    
+    <circle cx="800" cy="30" r="24" fill="#667eea" stroke="#667eea" stroke-width="2"/>
+    <text x="800" y="38" text-anchor="middle" class="step-num-active">4</text>
+    
+  </g>
+
+  <!-- Step Content Card -->
+  <rect x="200" y="180" width="800" height="280" rx="24" fill="#1a1a1b" stroke="#2a2a2b" stroke-width="2"/>
+
+  <!-- Step Content -->
+  <text x="600" y="250" text-anchor="middle" class="step-title">Step 4: View Dashboard</text>
+  <text x="600" y="300" text-anchor="middle" class="step-desc">See your analytics</text>
+
+  <!-- Code/Action Box -->
+  <rect x="300" y="340" width="600" height="60" rx="12" fill="#2a2a2b"/>
+  <text x="600" y="378" text-anchor="middle" class="step-action">Open /dashboard</text>
+
+  <!-- Footer -->
+  <text x="600" y="580" text-anchor="middle" class="footer">Setup Wizard — 4 steps to analytics</text>
+</svg>

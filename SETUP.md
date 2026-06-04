@@ -92,6 +92,16 @@ The setup wizard shows a tracking snippet:
 </html>
 ```
 
+**⚠️ IMPORTANT: Same-Origin Requirement**
+
+The tracking script requires your website and analytics dashboard to be on the **same domain** (or same origin in development).
+
+- ✅ **Works:** Website at `example.com`, Dashboard at `example.com/analytics`
+- ✅ **Works:** Website at `localhost:3000`, Dashboard at `localhost:3000` (development)
+- ❌ **Does NOT work:** Website at `example.com`, Dashboard at `analytics.example.com` (cross-origin)
+
+If you need cross-domain tracking, you'll need to configure CORS headers or deploy both on the same domain with path-based routing.
+
 **For Next.js sites:**
 
 Add to `app/layout.tsx`:
@@ -279,17 +289,76 @@ curl -X POST http://localhost:3000/api/maintenance/cleanup?days=90
 
 This deletes events older than 90 days (adjust `days` parameter as needed).
 
-### Database Backup
+### Database Backup & Restore
 
-**Local development:**
+**Why backup?**
+- Vercel's ephemeral filesystem means database resets on redeployment
+- Corrupted database files can destroy all data
+- Peace of mind for production deployments
+
+**Local development backup:**
 ```bash
-cp .data/analytics.db backup/analytics-$(date +%Y%m%d).db
+# Create backup directory
+mkdir -p backup
+
+# Backup with timestamp
+cp .data/analytics.db backup/analytics-$(date +%Y%m%d-%H%M%S).db
+
+# Verify backup
+ls -lh backup/
 ```
 
-**Vercel deployment:**
-1. SSH into your deployment
-2. Download `.data/analytics.db` from the filesystem
-3. Or use the export button in the dashboard UI (coming soon)
+**Vercel deployment backup:**
+```bash
+# Option 1: Use export API (recommended)
+curl "https://your-domain.vercel.app/api/export?format=json&range=90" \
+  -o analytics-backup-$(date +%Y%m%d).json
+
+# Option 2: Download via dashboard
+# Visit https://your-domain.vercel.app → Click "Export JSON" button
+
+# Option 3: Manual Vercel filesystem access (advanced)
+# Requires Vercel CLI and deployment access
+vercel logs --follow  # Find function invocation logs
+# Database lives at /tmp/.data/sqlite.db in Edge Functions
+```
+
+**Restore from backup:**
+```bash
+# Stop the dashboard (if running)
+# pkill -f "npm run dev"  # or Ctrl+C
+
+# Restore database file
+cp backup/analytics-20250604-143022.db .data/analytics.db
+
+# Restart dashboard
+npm run dev
+
+# Verify restoration
+# Visit http://localhost:3000 and check metrics
+```
+
+**Automated backup script (recommended for production):**
+```bash
+#!/bin/bash
+# Save as backup-analytics.sh
+# Run via cron: 0 2 * * * /path/to/backup-analytics.sh
+
+BACKUP_DIR="/path/to/backups"
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+EXPORT_URL="https://your-domain.vercel.app/api/export?format=json&range=90"
+
+# Create backup directory
+mkdir -p "$BACKUP_DIR"
+
+# Download export
+curl -s "$EXPORT_URL" -o "$BACKUP_DIR/analytics-$TIMESTAMP.json"
+
+# Keep last 30 days only
+find "$BACKUP_DIR" -name "analytics-*.json" -mtime +30 -delete
+
+echo "Backup completed: analytics-$TIMESTAMP.json"
+```
 
 ## Support
 

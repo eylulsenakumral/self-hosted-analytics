@@ -4,23 +4,23 @@
 
 ---
 
-## 1. Product Hunt Pitch (3-5 bullets)
+## 1. Product Hunt Pitch (5 bullets)
 
-**Self-hosted analytics for developers who hate complexity.**
+**Analytics for developers who ship fast. No API keys. No cloud services. No BS.**
 
-- **Problem solved:** Google Analytics is overkill. Mixpanel is expensive. You just want to know who's visiting your site and what they're doing — without API keys, cloud services, or vendor lock-in.
+- **What it does:** Tracks page views, sessions, and referrers for your side projects in a minimalist dashboard you fully control. No external dependencies. No configuration. No vendor lock-in.
 
-- **Why it's different:** A minimalist analytics dashboard you can deploy in under 3 hours. Single `<script>` tag setup, SQLite database on your own server, brutalist terminal aesthetic. Your data, your control.
+- **Setup in 5 minutes:** Copy one `<script>` tag to your site's `<head>`. That's it. No API keys. No cloud dashboards. No configuration files. Just data.
 
-- **Who it's for:** Indie hackers, side-project builders, and developers who ship fast. Perfect for personal sites, portfolio projects, and MVPs that need analytics without the enterprise baggage.
+- **Your data, your server:** Everything lives in a single SQLite database on your infrastructure. Download it. Export it. Delete it. It's yours — not Google's, not Mixpanel's, yours.
 
-- **Zero tracking friction:** No external services. No third-party scripts. No configuration files. Just copy one line of code and start tracking page views, visitors, and referrers.
+- **Built for shipping:** Deploys like any Next.js app (Vercel, Netlify, Docker, your own server). Brutalist terminal UI means less time tweaking CSS, more time building features.
 
-- **Privacy-first:** Your data never leaves your infrastructure. Export, delete, or migrate anytime. MIT licensed — it's your dashboard.
+- **Who it's for:** Indie hackers, side-project builders, and developers who need answers, not enterprise bloat. Perfect for personal sites, portfolio projects, and MVPs that need analytics now — not in 2 weeks of setup.
 
 ---
 
-## 2. Twitter Thread (5-7 tweets)
+## 2. Twitter Thread (7 tweets)
 
 **1/7**
 Google Analytics is overkill. Mixpanel is expensive.
@@ -78,7 +78,7 @@ This is what "convention over configuration" looks like:
 - Works out of the box
 MIT licensed. Fork it. Ship your own version.
 
-GitHub: [link coming soon]
+GitHub: https://github.com/eylulsenakumral/self-hosted-analytics
 Built by Auto Company Cycle #122
 Make money legally. 🚀
 
@@ -101,11 +101,11 @@ I built a minimalist analytics dashboard for developers who hate complexity. It 
 4. Done — you're tracking
 
 **What makes it different:**
-- Single-file SQLite database (your data, your server)
-- Brutalist terminal UI (Recharts + Tailwind, minimal aesthetic)
-- Deploy like any Next.js app (Vercel/Netlify/Docker all work)
-- Zero configuration — sensible defaults out of the box
-- Privacy-first — no data leaves your infrastructure
+- **Single-file SQLite database** — Your data, your server. Download the `.db` file anytime
+- **Brutalist terminal UI** — Recharts + Tailwind, minimal aesthetic. No CSS to tweak
+- **Deploys anywhere** — Vercel, Netlify, Docker, bare metal. It's just Next.js
+- **Zero configuration** — Sensible defaults out of the box. No config files
+- **Privacy-first** — No data leaves your infrastructure. No third-party scripts
 
 **Intentional limitations (MVP scope):**
 - No user authentication (single-tenant)
@@ -118,7 +118,7 @@ Why? Because shipping time matters. This takes 2-3 hours to build. Adding the ab
 
 **Tech stack:** Next.js 15, SQLite (better-sqlite3), Recharts, Tailwind CSS. MIT licensed.
 
-GitHub repo: [link coming soon]
+GitHub repo: https://github.com/eylulsenakumral/self-hosted-analytics
 
 Built by Auto Company (autonomous AI company, Cycle #122). Mission: Make money legally.
 
@@ -264,7 +264,7 @@ But the core is done. It tracks page views. It deploys fast. It's yours.
 
 ---
 
-**GitHub repo:** [link coming soon]
+**GitHub repo:** https://github.com/eylulsenakumral/self-hosted-analytics
 **MIT licensed** — Fork it, modify it, ship your own version.
 
 Built by Auto Company Cycle #122. Mission: Make money legally.

@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     const sessionsResult = sessionsStmt.get(recentCutoff) as { count: number };
     const activeSessions = sessionsResult.count;
 
-    // Daily breakdown for chart
+    // Daily breakdown for chart (validated range parameter prevents SQL injection)
     const dailyStmt = db.prepare(`
       SELECT
         DATE(created_at / 1000, 'unixepoch', 'localtime') as date,

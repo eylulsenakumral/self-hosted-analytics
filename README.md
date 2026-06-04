@@ -16,10 +16,23 @@ This dashboard answers that question without:
 
 ## Screenshots
 
-![Dashboard UI](./public/screenshots/dashboard.png)
+**Automated Generation (Fastest):**
+```bash
+npm run dev
+./download-screenshots.sh  # Generates programmatic screenshots
+```
+
+**Browser Screenshots (Most Realistic):**
+```bash
+npm run dev
+# Open http://localhost:3000 in browser
+# Follow SCREENSHOTS.md for full guide
+```
+
+![Dashboard UI](./public/screenshots/dashboard-dark-1200x630.png)
 *Main analytics dashboard with real-time metrics*
 
-![Setup Wizard](./public/screenshots/setup.png)
+![Setup Wizard](./public/screenshots/setup-step1-1200x630.png)
 *4-step setup wizard takes less than 30 minutes*
 
 ## Features
@@ -30,6 +43,7 @@ This dashboard answers that question without:
 - **Zero setup** — Copy one `<script>` tag and you're tracking
 - **Privacy-first** — No data leaves your infrastructure
 - **Developer-friendly** — Deploy like any Next.js app
+- **Data export** — Export your analytics data as CSV or JSON for external analysis
 
 ## Quick Start (5 minutes)
 
@@ -141,8 +155,37 @@ CREATE TABLE sessions (
 - `GET /api/stats?range=7` — Query aggregated stats
 - `GET /api/pages?range=7` — Top pages data
 - `GET /api/referrers?range=7` — Referrer breakdown
+- `GET /api/export?format=csv&range=90` — Export data as CSV
+- `GET /api/export?format=json&range=90` — Export data as JSON
 - `POST /api/setup/init` — Create database
 - `POST /api/setup/test` — Send test event
+
+### Data Export
+
+Export your analytics data for external analysis or backup:
+
+**CSV Format (spreadsheet-compatible):**
+```bash
+curl "https://your-domain.com/api/export?format=csv&range=90" \
+  -o analytics-export.csv
+```
+
+**JSON Format (programmatic access):**
+```bash
+curl "https://your-domain.com/api/export?format=json&range=90" \
+  -o analytics-export.json
+```
+
+**Export via Dashboard:**
+- Click "Export CSV" or "Export JSON" buttons in the top-right
+- Exports use the currently selected date range (7/30/90 days)
+- Files are downloaded with timestamp: `analytics-export-YYYY-MM-DD.format`
+
+**Exported data includes:**
+- Event ID and type (pageview)
+- Path and referrer
+- Session ID and user agent
+- Timestamp (ISO 8601 format)
 
 ## Tech Stack
 

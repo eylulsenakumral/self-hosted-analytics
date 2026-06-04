@@ -83,7 +83,41 @@ Open `test-site.html` in browser and click around for 2-3 minutes.
 
 ## Step 4: Take Screenshots
 
-### Screenshot 1: Main Dashboard (Required)
+### Method A: Automated Generation (Fastest - 2 minutes)
+
+**New in Cycle #126:** Programmatic screenshot generation using Next.js OG (Open Graph) image generation. No browser required.
+
+```bash
+# 1. Start dev server
+npm run dev
+
+# 2. Run automated downloader
+./download-screenshots.sh
+```
+
+This generates:
+- `dashboard-dark-1200x630.png` - Dark theme dashboard
+- `dashboard-light-1200x630.png` - Light theme dashboard
+- `setup-step1-1200x630.png` through `setup-step4-1200x630.png` - All setup wizard steps
+
+**Advantages:**
+- ✅ Zero browser setup required
+- ✅ Consistent, high-quality output
+- ✅ Runs in any environment (including headless servers)
+- ✅ Perfect for CI/CD pipelines
+
+**Limitations:**
+- ⚠️ Programmatic rendering (not actual browser screenshots)
+- ⚠️ Shows sample data, not real analytics
+- ⚠️ Fixed 1200x630 resolution (OG image standard)
+
+**Use when:** Quick screenshots for documentation, social media previews, or portfolio.
+
+### Method B: Browser Screenshots (Most Realistic - 10 minutes)
+
+Use when you need actual screenshots of the running application with real data.
+
+#### Screenshot 1: Main Dashboard (Required)
 
 **What to capture:**
 - Hero metrics cards (total views, unique visitors, top pages)

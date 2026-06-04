@@ -12,14 +12,35 @@ if (!existsSync(DATA_DIR)) {
 }
 
 let db: Database.Database | null = null;
+let isInitializing = false;
 
 export function getDb(): Database.Database {
-  if (!db) {
-    db = new Database(DB_PATH);
+  // Fast path: already initialized
+  if (db) {
+    return db;
+  }
+
+  // Prevent race condition with initialization flag
+  if (isInitializing) {
+    throw new Error('Database initialization in progress - retry shortly');
+  }
+
+  try {
+    isInitializing = true;
+    db = new Database(DB_PATH, {
+      verbose: process.env.NODE_ENV === 'development' ? console.log : undefined
+    });
     db.pragma('journal_mode = WAL');
     initializeSchema(db);
+    console.log('Database initialized:', DB_PATH);
+    return db;
+  } catch (error) {
+    console.error('Database initialization failed:', error);
+    db = null;
+    throw new Error(`Failed to initialize database: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  } finally {
+    isInitializing = false;
   }
-  return db;
 }
 
 function initializeSchema(database: Database.Database) {
@@ -66,6 +87,14 @@ export function cleanupOldData(daysToKeep: number = 90) {
 
   const result = db.prepare('DELETE FROM events WHERE created_at < ?').run(cutoff);
   console.log(`Cleaned up ${result.changes} events older than ${daysToKeep} days`);
+
+  // VACUUM to reclaim space after deletion
+  try {
+    db.exec('VACUUM');
+    console.log('Database VACUUM completed');
+  } catch (error) {
+    console.error('Database VACUUM failed:', error);
+  }
 
   return result.changes;
 }
